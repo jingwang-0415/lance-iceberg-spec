@@ -1,0 +1,18 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "indexes": [
+    {
+      "index_name": "idx_embedding",
+      "index_uuid": "11111111-2222-4333-8444-555555555555",
+      "columns": [
+        "embedding"
+      ],
+      "status": "ready",
+      "index_type": "IVF_FLAT",
+      "num_indexed_rows": 3,
+      "num_unindexed_rows": 0
+    }
+  ]
+}

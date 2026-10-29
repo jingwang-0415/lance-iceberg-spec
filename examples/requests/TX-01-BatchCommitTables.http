@@ -1,0 +1,31 @@
+POST /v1/table/batch-commit HTTP/1.1
+Content-Type: application/json
+
+{
+  "operations": [
+    {
+      "declare_table": {
+        "id": [
+          "lance_catalog",
+          "sales",
+          "orders_next"
+        ],
+        "location": "s3://example-bucket/orders-next.lance"
+      }
+    },
+    {
+      "create_table_version": {
+        "id": [
+          "lance_catalog",
+          "sales",
+          "orders"
+        ],
+        "branch": "main",
+        "version": 21,
+        "manifest_path": "s3://example-bucket/orders.lance/_versions/21.manifest",
+        "manifest_size": 1024,
+        "naming_scheme": "V1"
+      }
+    }
+  ]
+}

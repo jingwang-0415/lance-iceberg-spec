@@ -1,0 +1,9 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "location": "s3://example-bucket/orders.lance",
+  "properties": {
+    "owner": "sales-team"
+  }
+}

@@ -1,0 +1,21 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "total_bytes": 8192,
+  "num_rows": 3,
+  "num_indices": 1,
+  "fragment_stats": {
+    "num_fragments": 1,
+    "num_small_fragments": 1,
+    "lengths": {
+      "min": 3,
+      "max": 3,
+      "mean": 3,
+      "p25": 3,
+      "p50": 3,
+      "p75": 3,
+      "p99": 3
+    }
+  }
+}

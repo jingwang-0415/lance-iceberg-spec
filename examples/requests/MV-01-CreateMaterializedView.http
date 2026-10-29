@@ -1,0 +1,11 @@
+POST /v1/materialized_view/lance_catalog$sales$mv_orders/create HTTP/1.1
+Content-Type: application/json
+
+{
+  "kind": "query",
+  "source_query": "{\"format\":\"example-query-v1\",\"table\":[\"lance_catalog\",\"sales\",\"orders\"],\"columns\":[\"id\",\"price\"]}",
+  "output_schema": "/////8AAAAAQAAAAAAAKAAwABgAFAAgACgAAAAABBAAMAAAACAAIAAAABAAIAAAABAAAAAIAAABYAAAAFAAAABAAFAAIAAYABwAMAAAAEAAQAAAAAAABAxAAAAAcAAAABAAAAAAAAAAFAAAAcHJpY2UABgAIAAYABgAAAAAAAgAQABQACAAAAAcADAAAABAAEAAAAAAAAAIQAAAAHAAAAAQAAAAAAAAAAgAAAGlkAAAIAAwACAAHAAgAAAAAAAABQAAAAAAAAAA=",
+  "udtf_spec": null,
+  "with_no_data": true,
+  "auto_refresh": false
+}

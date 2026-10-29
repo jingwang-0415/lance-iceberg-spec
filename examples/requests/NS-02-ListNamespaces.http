@@ -1,0 +1,1 @@
+GET /v1/namespace/lance_catalog/list?limit=20 HTTP/1.1

@@ -1,0 +1,7 @@
+POST /v1/table/lance_catalog$sales$orders/schema_metadata/update?branch=main HTTP/1.1
+Content-Type: application/json
+
+{
+  "source": "crm",
+  "owner": "sales-team"
+}

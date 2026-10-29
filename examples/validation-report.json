@@ -1,0 +1,23 @@
+{
+  "interfaces": 54,
+  "request_models": 43,
+  "response_models": 51,
+  "query_fields": 25,
+  "binary_references": 4,
+  "java_estimates": {
+    "new_production": 37350,
+    "modified_production": 8250,
+    "production": 45600,
+    "test": 31300,
+    "total": 76900
+  },
+  "module_estimates": 14,
+  "document_examples": 54,
+  "summary_columns": 2,
+  "summary_links": 15,
+  "table_metadata_operations": 11,
+  "table_data_operations": 8,
+  "authorization_operations": 54,
+  "mapping_additions": "local structure checked; not applied to a live cluster",
+  "markdown": "passed"
+}

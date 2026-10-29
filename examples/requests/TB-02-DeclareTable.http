@@ -1,0 +1,10 @@
+POST /v1/table/lance_catalog$sales$orders/declare HTTP/1.1
+Content-Type: application/json
+
+{
+  "location": "s3://example-bucket/orders.lance",
+  "properties": {
+    "owner": "sales-team"
+  },
+  "vend_credentials": false
+}

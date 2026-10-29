@@ -1,0 +1,8 @@
+POST /v1/transaction/tx-index-01/describe HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": [
+    "tx-index-01"
+  ]
+}

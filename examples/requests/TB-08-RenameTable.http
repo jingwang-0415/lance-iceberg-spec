@@ -1,0 +1,10 @@
+POST /v1/table/lance_catalog$sales$orders/rename HTTP/1.1
+Content-Type: application/json
+
+{
+  "new_table_name": "orders_archive",
+  "new_namespace_id": [
+    "lance_catalog",
+    "sales"
+  ]
+}

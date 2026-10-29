@@ -1,0 +1,12 @@
+POST /v1/table/lance_catalog$sales$orders/alter_columns HTTP/1.1
+Content-Type: application/json
+
+{
+  "branch": "main",
+  "alterations": [
+    {
+      "path": "customer_name",
+      "rename": "buyer_name"
+    }
+  ]
+}

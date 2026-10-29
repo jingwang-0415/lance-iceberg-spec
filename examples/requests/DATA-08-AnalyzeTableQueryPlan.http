@@ -1,0 +1,15 @@
+POST /v1/table/lance_catalog$sales$orders/analyze_plan HTTP/1.1
+Content-Type: application/json
+
+{
+  "vector": null,
+  "k": 10,
+  "columns": {
+    "column_names": [
+      "id",
+      "price"
+    ]
+  },
+  "filter": "price >= 100",
+  "branch": "main"
+}

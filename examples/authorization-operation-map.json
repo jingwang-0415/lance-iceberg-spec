@@ -1,0 +1,496 @@
+{
+  "status": "design-proposal",
+  "scope": "三种协议共用业务权限点；下列 54 项为固定 Lance 操作的完整映射。附加条件是设计说明，不是可直接执行的策略表达式。",
+  "rules": [
+    {
+      "operationId": "CreateNamespace",
+      "baseActions": [
+        "namespace.create"
+      ],
+      "resource": "父级",
+      "additionalChecks": "ExistOk 读取既有对象需 namespace.metadata.read；Overwrite 另查 namespace.delete 及受影响子对象动作",
+      "specId": "NS-01"
+    },
+    {
+      "operationId": "ListNamespaces",
+      "baseActions": [
+        "namespace.list"
+      ],
+      "resource": "父级",
+      "additionalChecks": "逐个候选校验 namespace.metadata.read，执行授权分页",
+      "specId": "NS-02"
+    },
+    {
+      "operationId": "DescribeNamespace",
+      "baseActions": [
+        "namespace.metadata.read"
+      ],
+      "resource": "Namespace",
+      "additionalChecks": "属性输出受字段可见性限制",
+      "specId": "NS-03"
+    },
+    {
+      "operationId": "NamespaceExists",
+      "baseActions": [
+        "namespace.metadata.read"
+      ],
+      "resource": "Namespace",
+      "additionalChecks": "存在性同样受保护，不因空响应体而跳过",
+      "specId": "NS-04"
+    },
+    {
+      "operationId": "DropNamespace",
+      "baseActions": [
+        "namespace.delete"
+      ],
+      "resource": "Namespace",
+      "additionalChecks": "Cascade 检查全部子对象实际动作，含注销或物理删除差异",
+      "specId": "NS-05"
+    },
+    {
+      "operationId": "CreateTable",
+      "baseActions": [
+        "table.create"
+      ],
+      "resource": "父 Namespace",
+      "additionalChecks": "ExistOk 需既有表 table.metadata.read；Overwrite 需目标 table.data.overwrite 及 table.schema.alter；初始数据、位置按创建范围约束",
+      "specId": "TB-01"
+    },
+    {
+      "operationId": "DeclareTable",
+      "baseActions": [
+        "table.declare"
+      ],
+      "resource": "父 Namespace",
+      "additionalChecks": "按声明请求模式检查既有对象及替换权限，不以声明绕过后续写权限",
+      "specId": "TB-02"
+    },
+    {
+      "operationId": "RegisterTable",
+      "baseActions": [
+        "table.register"
+      ],
+      "resource": "父 Namespace",
+      "additionalChecks": "校验可注册位置及存储范围；Overwrite 还需既有对象 table.deregister，禁止挟持其他对象身份",
+      "specId": "TB-03"
+    },
+    {
+      "operationId": "ListTables",
+      "baseActions": [
+        "table.list"
+      ],
+      "resource": "Namespace",
+      "additionalChecks": "逐个候选检查 table.metadata.read",
+      "specId": "TB-04"
+    },
+    {
+      "operationId": "ListAllTables",
+      "baseActions": [
+        "table.list"
+      ],
+      "resource": "Catalog",
+      "additionalChecks": "跨 Namespace 候选均检查 table.metadata.read，不泄漏无权对象数量",
+      "specId": "TB-05"
+    },
+    {
+      "operationId": "DescribeTable",
+      "baseActions": [
+        "table.metadata.read"
+      ],
+      "resource": "Table",
+      "additionalChecks": "返回物理 URI 另查 storage.location.read；实际下发凭证另查 storage.credentials.issue 及对应数据权限",
+      "specId": "TB-06"
+    },
+    {
+      "operationId": "TableExists",
+      "baseActions": [
+        "table.metadata.read"
+      ],
+      "resource": "Table",
+      "additionalChecks": "指定历史版本或分支时检查对应作用域",
+      "specId": "TB-07"
+    },
+    {
+      "operationId": "RenameTable",
+      "baseActions": [
+        "table.rename"
+      ],
+      "resource": "源 Table",
+      "additionalChecks": "跨 Namespace 另查目标父级 table.create；检查源、目标和继承关系变化",
+      "specId": "TB-08"
+    },
+    {
+      "operationId": "DeregisterTable",
+      "baseActions": [
+        "table.deregister"
+      ],
+      "resource": "Table",
+      "additionalChecks": "仅注销注册，不自动授予物理删除权限",
+      "specId": "TB-09"
+    },
+    {
+      "operationId": "DropTable",
+      "baseActions": [
+        "table.purge"
+      ],
+      "resource": "Table",
+      "additionalChecks": "覆盖真实数据删除及依赖约束，不能仅凭注销权限执行",
+      "specId": "TB-10"
+    },
+    {
+      "operationId": "GetTableStats",
+      "baseActions": [
+        "table.metadata.read",
+        "table.data.read"
+      ],
+      "resource": "Table",
+      "additionalChecks": "行数、数据量等统计按数据读取保护",
+      "specId": "TB-11"
+    },
+    {
+      "operationId": "InsertIntoTable",
+      "baseActions": [
+        "table.data.insert"
+      ],
+      "resource": "Table",
+      "additionalChecks": "Overwrite 另查 table.data.overwrite；绑定 branch，写入列限制须可执行",
+      "specId": "DATA-01"
+    },
+    {
+      "operationId": "MergeInsertIntoTable",
+      "baseActions": [
+        "table.data.merge"
+      ],
+      "resource": "Table",
+      "additionalChecks": "根据 when_* 开关追加 table.data.insert / table.data.update / table.data.delete；所有启用分支均校验",
+      "specId": "DATA-02"
+    },
+    {
+      "operationId": "UpdateTable",
+      "baseActions": [
+        "table.data.update"
+      ],
+      "resource": "Table",
+      "additionalChecks": "覆盖 predicate、表达式引用列、目标列与分支；全表更新也需允许的作用域",
+      "specId": "DATA-03"
+    },
+    {
+      "operationId": "DeleteFromTable",
+      "baseActions": [
+        "table.data.delete"
+      ],
+      "resource": "Table",
+      "additionalChecks": "覆盖 predicate 及分支；删除行不同于删除表文件",
+      "specId": "DATA-04"
+    },
+    {
+      "operationId": "QueryTable",
+      "baseActions": [
+        "table.data.read"
+      ],
+      "resource": "Table",
+      "additionalChecks": "过滤、投影、计划、统计及历史版本均执行相同数据范围限制",
+      "specId": "DATA-05"
+    },
+    {
+      "operationId": "CountTableRows",
+      "baseActions": [
+        "table.data.read"
+      ],
+      "resource": "Table",
+      "additionalChecks": "过滤、投影、计划、统计及历史版本均执行相同数据范围限制",
+      "specId": "DATA-06"
+    },
+    {
+      "operationId": "ExplainTableQueryPlan",
+      "baseActions": [
+        "table.data.read"
+      ],
+      "resource": "Table",
+      "additionalChecks": "过滤、投影、计划、统计及历史版本均执行相同数据范围限制",
+      "specId": "DATA-07"
+    },
+    {
+      "operationId": "AnalyzeTableQueryPlan",
+      "baseActions": [
+        "table.data.read"
+      ],
+      "resource": "Table",
+      "additionalChecks": "过滤、投影、计划、统计及历史版本均执行相同数据范围限制",
+      "specId": "DATA-08"
+    },
+    {
+      "operationId": "AlterTableAddColumns",
+      "baseActions": [
+        "table.schema.alter"
+      ],
+      "resource": "Table",
+      "additionalChecks": "校验目标字段；有表达式计算或数据重写时追加相应数据读取/更新权限",
+      "specId": "SC-01"
+    },
+    {
+      "operationId": "AlterTableAlterColumns",
+      "baseActions": [
+        "table.schema.alter"
+      ],
+      "resource": "Table",
+      "additionalChecks": "校验目标字段；有表达式计算或数据重写时追加相应数据读取/更新权限",
+      "specId": "SC-02"
+    },
+    {
+      "operationId": "AlterTableDropColumns",
+      "baseActions": [
+        "table.schema.alter"
+      ],
+      "resource": "Table",
+      "additionalChecks": "校验目标字段；有表达式计算或数据重写时追加相应数据读取/更新权限",
+      "specId": "SC-03"
+    },
+    {
+      "operationId": "UpdateFieldMetadata",
+      "baseActions": [
+        "table.schema.metadata.alter"
+      ],
+      "resource": "Table",
+      "additionalChecks": "只修改协议 metadata；不得借此修改外部安全属性",
+      "specId": "SC-04"
+    },
+    {
+      "operationId": "UpdateTableSchemaMetadata",
+      "baseActions": [
+        "table.schema.metadata.alter"
+      ],
+      "resource": "Table",
+      "additionalChecks": "只修改协议 metadata；不得借此修改外部安全属性",
+      "specId": "SC-05"
+    },
+    {
+      "operationId": "AlterTableBackfillColumns",
+      "baseActions": [
+        "table.schema.backfill",
+        "table.data.read",
+        "table.data.update"
+      ],
+      "resource": "Table",
+      "additionalChecks": "校验来源列、目标列和分支；作业派发前重新鉴权",
+      "specId": "SC-06"
+    },
+    {
+      "operationId": "CreateTableIndex",
+      "baseActions": [
+        "table.index.create"
+      ],
+      "resource": "Table + 索引上下文",
+      "additionalChecks": "覆盖目标列；替换既有索引另查 table.index.drop；构建执行使用受控服务身份",
+      "specId": "IDX-01"
+    },
+    {
+      "operationId": "CreateTableScalarIndex",
+      "baseActions": [
+        "table.index.create"
+      ],
+      "resource": "Table + 索引上下文",
+      "additionalChecks": "覆盖目标列；替换既有索引另查 table.index.drop；构建执行使用受控服务身份",
+      "specId": "IDX-02"
+    },
+    {
+      "operationId": "ListTableIndices",
+      "baseActions": [
+        "table.index.read"
+      ],
+      "resource": "Table",
+      "additionalChecks": "按索引及列可见范围返回",
+      "specId": "IDX-03"
+    },
+    {
+      "operationId": "DescribeTableIndexStats",
+      "baseActions": [
+        "table.index.read",
+        "table.data.read"
+      ],
+      "resource": "Table + Index",
+      "additionalChecks": "统计不得泄漏超出读取范围的数据分布",
+      "specId": "IDX-04"
+    },
+    {
+      "operationId": "DropTableIndex",
+      "baseActions": [
+        "table.index.drop"
+      ],
+      "resource": "Table + Index",
+      "additionalChecks": "校验准确索引标识及分支，不授予删除表权限",
+      "specId": "IDX-05"
+    },
+    {
+      "operationId": "ListTableVersions",
+      "baseActions": [
+        "table.version.read"
+      ],
+      "resource": "Table + 版本范围",
+      "additionalChecks": "覆盖分支；返回 Manifest 位置另查 storage.location.read",
+      "specId": "VER-01"
+    },
+    {
+      "operationId": "DescribeTableVersion",
+      "baseActions": [
+        "table.version.read"
+      ],
+      "resource": "Table + 版本范围",
+      "additionalChecks": "覆盖分支；返回 Manifest 位置另查 storage.location.read",
+      "specId": "VER-02"
+    },
+    {
+      "operationId": "CreateTableVersion",
+      "baseActions": [
+        "table.version.commit"
+      ],
+      "resource": "Table + 版本范围",
+      "additionalChecks": "校验 Manifest 归属及提交分支；批次逐项检查",
+      "specId": "VER-03"
+    },
+    {
+      "operationId": "BatchCreateTableVersions",
+      "baseActions": [
+        "table.version.commit"
+      ],
+      "resource": "Table + 版本范围",
+      "additionalChecks": "校验 Manifest 归属及提交分支；批次逐项检查",
+      "specId": "VER-04"
+    },
+    {
+      "operationId": "BatchDeleteTableVersions",
+      "baseActions": [
+        "table.version.delete"
+      ],
+      "resource": "Table + 版本范围",
+      "additionalChecks": "逐项授权并保护引用；版本记录删除不隐含文件回收权限",
+      "specId": "VER-05"
+    },
+    {
+      "operationId": "RestoreTable",
+      "baseActions": [
+        "table.version.restore"
+      ],
+      "resource": "Table + 目标版本",
+      "additionalChecks": "校验目标分支、来源版本与恢复范围，不以普通元数据修改权限替代",
+      "specId": "VER-06"
+    },
+    {
+      "operationId": "ListTableTags",
+      "baseActions": [
+        "table.tag.read"
+      ],
+      "resource": "Table + Tag",
+      "additionalChecks": "返回指向版本时限制可见范围",
+      "specId": "REF-01"
+    },
+    {
+      "operationId": "GetTableTagVersion",
+      "baseActions": [
+        "table.tag.read"
+      ],
+      "resource": "Table + Tag",
+      "additionalChecks": "返回指向版本时限制可见范围",
+      "specId": "REF-02"
+    },
+    {
+      "operationId": "CreateTableTag",
+      "baseActions": [
+        "table.tag.create"
+      ],
+      "resource": "Table + Tag",
+      "additionalChecks": "创建或改指向时校验目标版本 table.version.read；删除引用不删除版本",
+      "specId": "REF-03"
+    },
+    {
+      "operationId": "UpdateTableTag",
+      "baseActions": [
+        "table.tag.update"
+      ],
+      "resource": "Table + Tag",
+      "additionalChecks": "创建或改指向时校验目标版本 table.version.read；删除引用不删除版本",
+      "specId": "REF-04"
+    },
+    {
+      "operationId": "DeleteTableTag",
+      "baseActions": [
+        "table.tag.delete"
+      ],
+      "resource": "Table + Tag",
+      "additionalChecks": "创建或改指向时校验目标版本 table.version.read；删除引用不删除版本",
+      "specId": "REF-05"
+    },
+    {
+      "operationId": "ListTableBranches",
+      "baseActions": [
+        "table.branch.read"
+      ],
+      "resource": "Table",
+      "additionalChecks": "逐分支限制可见性",
+      "specId": "REF-06"
+    },
+    {
+      "operationId": "CreateTableBranch",
+      "baseActions": [
+        "table.branch.create"
+      ],
+      "resource": "Table + Branch",
+      "additionalChecks": "校验源分支/版本 table.version.read",
+      "specId": "REF-07"
+    },
+    {
+      "operationId": "DeleteTableBranch",
+      "baseActions": [
+        "table.branch.delete"
+      ],
+      "resource": "Table + Branch",
+      "additionalChecks": "覆盖目标分支及其依赖，不扩大到其他分支",
+      "specId": "REF-08"
+    },
+    {
+      "operationId": "CreateMaterializedView",
+      "baseActions": [
+        "view.create"
+      ],
+      "resource": "父 Namespace",
+      "additionalChecks": "全部源表 table.data.read；立即/自动刷新检查 view.refresh 和输出写入/覆盖范围，并建立受控委托",
+      "specId": "MV-01"
+    },
+    {
+      "operationId": "RefreshMaterializedView",
+      "baseActions": [
+        "view.refresh"
+      ],
+      "resource": "View",
+      "additionalChecks": "全部源表 table.data.read，输出表按实际刷新方式检查 table.data.insert / table.data.overwrite；校验委托与源版本",
+      "specId": "MV-02"
+    },
+    {
+      "operationId": "BatchCommitTables",
+      "baseActions": [
+        "transaction.commit"
+      ],
+      "resource": "提交范围",
+      "additionalChecks": "每项分别展开 table.declare、table.version.commit、table.version.delete、table.deregister；全部允许后才能提交",
+      "specId": "TX-01"
+    },
+    {
+      "operationId": "DescribeTransaction",
+      "baseActions": [
+        "transaction.read"
+      ],
+      "resource": "Transaction",
+      "additionalChecks": "校验参与对象详情可见性，不能只凭知道 transaction_id 返回内容",
+      "specId": "TX-02"
+    },
+    {
+      "operationId": "AlterTransaction",
+      "baseActions": [
+        "transaction.alter"
+      ],
+      "resource": "Transaction",
+      "additionalChecks": "逐项校验 actions 及参与对象管理范围；终态只允许具备执行协调职责的主体更新",
+      "specId": "TX-03"
+    }
+  ]
+}

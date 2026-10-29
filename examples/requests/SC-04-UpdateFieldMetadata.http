@@ -1,0 +1,16 @@
+POST /v1/table/lance_catalog$sales$orders/update_field_metadata HTTP/1.1
+Content-Type: application/json
+
+{
+  "branch": "main",
+  "updates": [
+    {
+      "path": "price",
+      "metadata": {
+        "unit": "CNY",
+        "source": null
+      },
+      "replace": false
+    }
+  ]
+}

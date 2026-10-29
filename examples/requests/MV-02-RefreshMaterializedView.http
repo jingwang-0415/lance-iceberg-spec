@@ -1,0 +1,8 @@
+POST /v1/materialized_view/lance_catalog$sales$mv_orders/refresh HTTP/1.1
+Content-Type: application/json
+
+{
+  "src_version": 20,
+  "concurrency": 4,
+  "max_rows_per_fragment": 100000
+}

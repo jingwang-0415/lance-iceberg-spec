@@ -1,0 +1,1 @@
+GET /v1/namespace/lance_catalog$sales/table/list?limit=20&include_declared=false HTTP/1.1

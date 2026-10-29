@@ -1,0 +1,20 @@
+POST /v1/transaction/tx-index-01/alter HTTP/1.1
+Content-Type: application/json
+
+{
+  "actions": [
+    {
+      "setPropertyAction": {
+        "key": "progress",
+        "value": "50",
+        "mode": "Overwrite"
+      }
+    },
+    {
+      "unsetPropertyAction": {
+        "key": "last_error",
+        "mode": "Skip"
+      }
+    }
+  ]
+}

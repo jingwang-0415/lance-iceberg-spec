@@ -1,0 +1,4 @@
+POST /v1/table/lance_catalog$sales$orders/merge_insert?branch=main&on=id&when_matched_update_all=true&when_not_matched_insert_all=true&when_not_matched_by_source_delete=false&timeout=30s HTTP/1.1
+Content-Type: application/vnd.apache.arrow.stream
+
+< ../fixtures/merge.arrow

@@ -1,0 +1,21 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "results": [
+    {
+      "declare_table": {
+        "location": "s3://example-bucket/orders-next.lance"
+      }
+    },
+    {
+      "create_table_version": {
+        "version": {
+          "version": 21,
+          "manifest_path": "s3://example-bucket/orders.lance/_versions/21.manifest",
+          "manifest_size": 1024
+        }
+      }
+    }
+  ]
+}

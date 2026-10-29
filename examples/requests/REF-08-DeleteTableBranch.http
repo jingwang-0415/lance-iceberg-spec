@@ -1,0 +1,6 @@
+POST /v1/table/lance_catalog$sales$orders/branches/delete HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "experiment"
+}

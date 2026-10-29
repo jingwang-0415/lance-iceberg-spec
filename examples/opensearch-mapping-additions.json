@@ -1,0 +1,237 @@
+{
+  "properties": {
+    "metadataSchemaVersion": {
+      "type": "integer"
+    },
+    "resourceRevision": {
+      "type": "long"
+    },
+    "lance": {
+      "type": "object",
+      "dynamic": "strict",
+      "properties": {
+        "endpointRef": {
+          "type": "keyword"
+        },
+        "protocolRevision": {
+          "type": "keyword"
+        },
+        "identifier": {
+          "type": "keyword"
+        },
+        "managedVersioning": {
+          "type": "boolean"
+        },
+        "isOnlyDeclared": {
+          "type": "boolean"
+        },
+        "defaultBranch": {
+          "type": "keyword"
+        },
+        "observedBranch": {
+          "type": "keyword"
+        },
+        "observedVersion": {
+          "type": "long"
+        },
+        "vectorColumns": {
+          "type": "nested",
+          "dynamic": "strict",
+          "properties": {
+            "fieldPath": {
+              "type": "keyword"
+            },
+            "dimension": {
+              "type": "integer"
+            },
+            "elementType": {
+              "type": "keyword"
+            }
+          }
+        },
+        "schemaMetadata": {
+          "type": "object",
+          "enabled": false
+        },
+        "fieldMetadata": {
+          "type": "object",
+          "enabled": false
+        },
+        "index": {
+          "type": "object",
+          "dynamic": "strict",
+          "properties": {
+            "uuid": {
+              "type": "keyword"
+            },
+            "indexType": {
+              "type": "keyword"
+            },
+            "fieldPaths": {
+              "type": "keyword"
+            },
+            "status": {
+              "type": "keyword"
+            },
+            "indexedRows": {
+              "type": "long"
+            },
+            "unindexedRows": {
+              "type": "long"
+            }
+          }
+        },
+        "version": {
+          "type": "object",
+          "dynamic": "strict",
+          "properties": {
+            "branch": {
+              "type": "keyword"
+            },
+            "number": {
+              "type": "long"
+            },
+            "manifestPath": {
+              "type": "keyword",
+              "index": false,
+              "doc_values": false
+            },
+            "manifestSize": {
+              "type": "long"
+            }
+          }
+        },
+        "reference": {
+          "type": "object",
+          "dynamic": "strict",
+          "properties": {
+            "kind": {
+              "type": "keyword"
+            },
+            "name": {
+              "type": "keyword"
+            },
+            "branch": {
+              "type": "keyword"
+            },
+            "version": {
+              "type": "long"
+            }
+          }
+        },
+        "view": {
+          "type": "object",
+          "dynamic": "strict",
+          "properties": {
+            "kind": {
+              "type": "keyword"
+            },
+            "autoRefresh": {
+              "type": "boolean"
+            },
+            "sourceVersion": {
+              "type": "long"
+            },
+            "outputVersion": {
+              "type": "long"
+            },
+            "jobId": {
+              "type": "keyword"
+            },
+            "refreshStatus": {
+              "type": "keyword"
+            }
+          }
+        },
+        "transaction": {
+          "type": "object",
+          "dynamic": "strict",
+          "properties": {
+            "id": {
+              "type": "keyword"
+            },
+            "status": {
+              "type": "keyword"
+            }
+          }
+        },
+        "extensions": {
+          "type": "object",
+          "enabled": false
+        }
+      }
+    },
+    "authorization": {
+      "type": "object",
+      "dynamic": "strict",
+      "properties": {
+        "resourceId": {
+          "type": "keyword"
+        },
+        "bindingStatus": {
+          "type": "keyword"
+        },
+        "bindingRevision": {
+          "type": "long"
+        },
+        "attributeRevision": {
+          "type": "keyword"
+        }
+      }
+    },
+    "enrichment": {
+      "type": "object",
+      "dynamic": "strict",
+      "properties": {
+        "sourceSystem": {
+          "type": "keyword"
+        },
+        "sourceRevision": {
+          "type": "keyword"
+        },
+        "status": {
+          "type": "keyword"
+        },
+        "fetchedAt": {
+          "type": "date"
+        },
+        "display": {
+          "type": "object",
+          "dynamic": "strict",
+          "properties": {
+            "ownerName": {
+              "type": "keyword"
+            },
+            "organizationName": {
+              "type": "keyword"
+            },
+            "businessDomain": {
+              "type": "keyword"
+            }
+          }
+        },
+        "externalObjectId": {
+          "type": "keyword"
+        }
+      }
+    },
+    "delivery": {
+      "type": "object",
+      "dynamic": "strict",
+      "properties": {
+        "resourceSyncRequired": {
+          "type": "boolean"
+        },
+        "desiredRevision": {
+          "type": "long"
+        },
+        "acknowledgedRevision": {
+          "type": "long"
+        },
+        "nextAttemptAt": {
+          "type": "date"
+        }
+      }
+    }
+  }
+}

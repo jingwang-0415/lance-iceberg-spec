@@ -1,0 +1,11 @@
+POST /v1/namespace/lance_catalog$sales/drop HTTP/1.1
+Content-Type: application/json
+
+{
+  "id": [
+    "lance_catalog",
+    "sales"
+  ],
+  "mode": "Fail",
+  "behavior": "Restrict"
+}

@@ -1,0 +1,1 @@
+GET /v1/table?limit=20&include_declared=true HTTP/1.1

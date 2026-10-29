@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "index_type": "IVF_FLAT",
+  "distance_type": "l2",
+  "num_indexed_rows": 3,
+  "num_unindexed_rows": 0,
+  "num_indices": 1
+}

@@ -1,0 +1,18 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "table": "orders",
+  "namespace": [
+    "lance_catalog",
+    "sales"
+  ],
+  "version": 20,
+  "location": "s3://example-bucket/orders.lance",
+  "table_uri": "s3://example-bucket/orders.lance",
+  "properties": {
+    "owner": "sales-team"
+  },
+  "managed_versioning": false,
+  "is_only_declared": false
+}

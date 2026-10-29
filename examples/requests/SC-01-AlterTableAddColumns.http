@@ -1,0 +1,12 @@
+POST /v1/table/lance_catalog$sales$orders/add_columns HTTP/1.1
+Content-Type: application/json
+
+{
+  "branch": "main",
+  "new_columns": [
+    {
+      "name": "discount_price",
+      "expression": "price * 0.9"
+    }
+  ]
+}

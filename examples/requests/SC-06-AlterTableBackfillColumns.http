@@ -1,0 +1,10 @@
+POST /v1/table/lance_catalog$sales$orders/backfill_column HTTP/1.1
+Content-Type: application/json
+
+{
+  "branch": "main",
+  "column": "embedding_v2",
+  "where": "embedding_v2 IS NULL",
+  "read_version": 20,
+  "concurrency": 4
+}

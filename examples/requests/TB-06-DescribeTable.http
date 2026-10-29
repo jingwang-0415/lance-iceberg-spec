@@ -1,0 +1,8 @@
+POST /v1/table/lance_catalog$sales$orders/describe?with_table_uri=true&load_detailed_metadata=true&check_declared=true HTTP/1.1
+Content-Type: application/json
+
+{
+  "version": 20,
+  "branch": "main",
+  "vend_credentials": false
+}

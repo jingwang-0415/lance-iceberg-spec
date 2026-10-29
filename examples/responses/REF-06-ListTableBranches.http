@@ -1,0 +1,13 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "branches": {
+    "experiment": {
+      "parentVersion": 20,
+      "createAt": 1793145600,
+      "manifestSize": 1024,
+      "metadata": {}
+    }
+  }
+}

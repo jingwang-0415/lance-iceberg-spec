@@ -1,0 +1,4 @@
+POST /v1/table/lance_catalog$sales$orders/create?mode=Create&properties=%7B%22owner%22%3A%22sales-team%22%7D HTTP/1.1
+Content-Type: application/vnd.apache.arrow.stream
+
+< ../fixtures/create-empty.arrow

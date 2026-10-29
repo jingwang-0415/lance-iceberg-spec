@@ -1,0 +1,130 @@
+{
+  "modules": [
+    {
+      "type": "Catalog",
+      "new_production": 1300,
+      "modified_production": 700,
+      "production": 2000,
+      "test": 1100,
+      "total": 3100
+    },
+    {
+      "type": "Namespace",
+      "new_production": 850,
+      "modified_production": 350,
+      "production": 1200,
+      "test": 900,
+      "total": 2100
+    },
+    {
+      "type": "Table 元数据",
+      "new_production": 2900,
+      "modified_production": 750,
+      "production": 3650,
+      "test": 2400,
+      "total": 6050
+    },
+    {
+      "type": "Table 数据",
+      "new_production": 1600,
+      "modified_production": 350,
+      "production": 1950,
+      "test": 1400,
+      "total": 3350
+    },
+    {
+      "type": "Schema / Column",
+      "new_production": 1800,
+      "modified_production": 400,
+      "production": 2200,
+      "test": 1700,
+      "total": 3900
+    },
+    {
+      "type": "Index",
+      "new_production": 2200,
+      "modified_production": 400,
+      "production": 2600,
+      "test": 1900,
+      "total": 4500
+    },
+    {
+      "type": "Version",
+      "new_production": 3600,
+      "modified_production": 600,
+      "production": 4200,
+      "test": 3200,
+      "total": 7400
+    },
+    {
+      "type": "Tag / Branch",
+      "new_production": 1800,
+      "modified_production": 400,
+      "production": 2200,
+      "test": 1600,
+      "total": 3800
+    },
+    {
+      "type": "Materialized View",
+      "new_production": 1700,
+      "modified_production": 300,
+      "production": 2000,
+      "test": 1400,
+      "total": 3400
+    },
+    {
+      "type": "Transaction",
+      "new_production": 2500,
+      "modified_production": 500,
+      "production": 3000,
+      "test": 2300,
+      "total": 5300
+    },
+    {
+      "type": "Operation / SyncCheckpoint / Tombstone",
+      "new_production": 4100,
+      "modified_production": 900,
+      "production": 5000,
+      "test": 3800,
+      "total": 8800
+    },
+    {
+      "type": "共享模型与协议适配",
+      "new_production": 5300,
+      "modified_production": 1500,
+      "production": 6800,
+      "test": 3800,
+      "total": 10600
+    },
+    {
+      "type": "统一权限点校验",
+      "new_production": 3600,
+      "modified_production": 600,
+      "production": 4200,
+      "test": 2800,
+      "total": 7000
+    },
+    {
+      "type": "外部权限与信息补齐接入",
+      "new_production": 4100,
+      "modified_production": 500,
+      "production": 4600,
+      "test": 3000,
+      "total": 7600
+    }
+  ],
+  "totals": {
+    "new_production": 37350,
+    "modified_production": 8250,
+    "production": 45600,
+    "test": 31300,
+    "total": 76900
+  },
+  "scope": "三种协议共用 OpenSearch 主元数据存储，已有底层完整支持固定 Lance 协议 54 个操作；估算平台接口接入、共享模型及 Mapping、权限执行、外部系统适配、同步和恢复，不含底层服务/执行引擎/原子提交设施或外部权限与业务系统本身的实现。",
+  "allocation_notes": [
+    "共享模型与协议适配替代原协议两两转换估算，生产 6800 行；公共名称、类型、错误转换集中计一次。",
+    "权限点和决策编排计入统一权限点校验；外部客户端、资源绑定、补齐与变更适配计入外部接入。",
+    "对象模块保留业务校验调用位置；通用条件写、幂等、恢复框架计入 Operation / SyncCheckpoint / Tombstone；外部接入仅计特定契约。",
+    "Mapping JSON、配置和本文新增的权限对照文件不计入生产 Java 行数。"
+  ]
+}

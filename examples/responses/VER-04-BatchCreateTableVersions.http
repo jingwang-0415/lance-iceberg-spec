@@ -1,0 +1,17 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "versions": [
+    {
+      "version": 21,
+      "manifest_path": "s3://example-bucket/orders.lance/_versions/21.manifest",
+      "manifest_size": 1024
+    },
+    {
+      "version": 9,
+      "manifest_path": "s3://example-bucket/customers.lance/_versions/9.manifest",
+      "manifest_size": 1024
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "id": [
+    "lance_catalog",
+    "sales",
+    "orders"
+  ],
+  "location": "s3://example-bucket/orders.lance"
+}

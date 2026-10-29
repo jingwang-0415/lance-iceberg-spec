@@ -1,0 +1,31 @@
+POST /v1/table/version/batch-create HTTP/1.1
+Content-Type: application/json
+
+{
+  "entries": [
+    {
+      "id": [
+        "lance_catalog",
+        "sales",
+        "orders"
+      ],
+      "branch": "main",
+      "version": 21,
+      "manifest_path": "s3://example-bucket/orders.lance/_versions/21.manifest",
+      "manifest_size": 1024,
+      "naming_scheme": "V1"
+    },
+    {
+      "id": [
+        "lance_catalog",
+        "sales",
+        "customers"
+      ],
+      "branch": "main",
+      "version": 9,
+      "manifest_path": "s3://example-bucket/customers.lance/_versions/9.manifest",
+      "manifest_size": 1024,
+      "naming_scheme": "V1"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "num_inserted_rows": 2,
+  "version": 21
+}

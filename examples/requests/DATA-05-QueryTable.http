@@ -1,0 +1,25 @@
+POST /v1/table/lance_catalog$sales$orders/query HTTP/1.1
+Content-Type: application/json
+
+{
+  "vector": {
+    "single_vector": [
+      0.1,
+      0.2,
+      0.3
+    ]
+  },
+  "k": 2,
+  "vector_column": "embedding",
+  "distance_type": "l2",
+  "columns": {
+    "column_names": [
+      "id",
+      "price"
+    ]
+  },
+  "filter": "price >= 100",
+  "branch": "main",
+  "version": 20,
+  "bypass_vector_index": true
+}

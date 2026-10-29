@@ -1,0 +1,107 @@
+{
+  "output_schema_base64": "/////8AAAAAQAAAAAAAKAAwABgAFAAgACgAAAAABBAAMAAAACAAIAAAABAAIAAAABAAAAAIAAABYAAAAFAAAABAAFAAIAAYABwAMAAAAEAAQAAAAAAABAxAAAAAcAAAABAAAAAAAAAAFAAAAcHJpY2UABgAIAAYABgAAAAAAAgAQABQACAAAAAcADAAAABAAEAAAAAAAAAIQAAAAHAAAAAQAAAAAAAAAAgAAAGlkAAAIAAwACAAHAAgAAAAAAAABQAAAAAAAAAA=",
+  "schema": "id: int64 not null\ncustomer_name: string\nprice: double\n  -- field metadata --\n  unit: 'CNY'\ndescription: string\nembedding: fixed_size_list<item: float>[3] not null\n  child 0, item: float\n  -- field metadata --\n  model: 'embedding-v1'\nlegacy_note: string\n-- schema metadata --\nsource: 'example'",
+  "base_rows": [
+    {
+      "id": 1,
+      "customer_name": "customer-1",
+      "price": 100.0,
+      "description": "order 1",
+      "embedding": [
+        0.10000000149011612,
+        0.20000000298023224,
+        0.30000001192092896
+      ],
+      "legacy_note": null
+    },
+    {
+      "id": 2,
+      "customer_name": "customer-2",
+      "price": 200.0,
+      "description": "order 2",
+      "embedding": [
+        0.4000000059604645,
+        0.5,
+        0.6000000238418579
+      ],
+      "legacy_note": null
+    },
+    {
+      "id": 3,
+      "customer_name": "customer-3",
+      "price": 300.0,
+      "description": "order 3",
+      "embedding": [
+        0.8999999761581421,
+        0.10000000149011612,
+        0.20000000298023224
+      ],
+      "legacy_note": null
+    }
+  ],
+  "insert_rows": [
+    {
+      "id": 4,
+      "customer_name": "customer-4",
+      "price": 400.0,
+      "description": "order 4",
+      "embedding": [
+        0.20000000298023224,
+        0.30000001192092896,
+        0.4000000059604645
+      ],
+      "legacy_note": null
+    },
+    {
+      "id": 5,
+      "customer_name": "customer-5",
+      "price": 500.0,
+      "description": "order 5",
+      "embedding": [
+        0.5,
+        0.6000000238418579,
+        0.699999988079071
+      ],
+      "legacy_note": null
+    }
+  ],
+  "merge_rows": [
+    {
+      "id": 1,
+      "customer_name": "customer-1",
+      "price": 110.0,
+      "description": "order 1",
+      "embedding": [
+        0.10000000149011612,
+        0.20000000298023224,
+        0.30000001192092896
+      ],
+      "legacy_note": null
+    },
+    {
+      "id": 4,
+      "customer_name": "customer-4",
+      "price": 400.0,
+      "description": "order 4",
+      "embedding": [
+        0.20000000298023224,
+        0.30000001192092896,
+        0.4000000059604645
+      ],
+      "legacy_note": null
+    }
+  ],
+  "query_rows": [
+    {
+      "id": 1,
+      "price": 100.0,
+      "_distance": 0.0
+    },
+    {
+      "id": 2,
+      "price": 200.0,
+      "_distance": 0.27
+    }
+  ],
+  "validation": "Arrow stream/file/schema local round-trip passed; no remote call"
+}

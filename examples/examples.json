@@ -1,0 +1,1650 @@
+{
+  "CreateNamespace": {
+    "method": "POST",
+    "template": "/v1/namespace/{id}/create",
+    "route": "/v1/namespace/lance_catalog$sales/create",
+    "request_body": {
+      "id": [
+        "lance_catalog",
+        "sales"
+      ],
+      "mode": "Create",
+      "properties": {
+        "owner": "sales-team"
+      }
+    },
+    "response_body": {
+      "properties": {
+        "owner": "sales-team"
+      }
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "父级 lance_catalog 已存在；重复使用 Create 创建 sales 应冲突。"
+  },
+  "ListNamespaces": {
+    "method": "GET",
+    "template": "/v1/namespace/{id}/list",
+    "route": "/v1/namespace/lance_catalog/list?limit=20",
+    "request_body": null,
+    "response_body": {
+      "namespaces": [
+        "sales",
+        "analytics"
+      ]
+    },
+    "query": {
+      "limit": 20
+    },
+    "identifier": [
+      "lance_catalog"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": null,
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "列举 lance_catalog 下的子命名空间；未返回 page_token 表示本例没有下一页。"
+  },
+  "DescribeNamespace": {
+    "method": "POST",
+    "template": "/v1/namespace/{id}/describe",
+    "route": "/v1/namespace/lance_catalog$sales/describe",
+    "request_body": {
+      "id": [
+        "lance_catalog",
+        "sales"
+      ]
+    },
+    "response_body": {
+      "properties": {
+        "owner": "sales-team"
+      }
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "返回该命名空间的底层属性；平台自定义属性由统一业务接口另行组合。"
+  },
+  "NamespaceExists": {
+    "method": "POST",
+    "template": "/v1/namespace/{id}/exists",
+    "route": "/v1/namespace/lance_catalog$sales/exists",
+    "request_body": {
+      "id": [
+        "lance_catalog",
+        "sales"
+      ]
+    },
+    "response_body": null,
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": null,
+    "request_file": null,
+    "response_file": null,
+    "note": "成功响应无响应体；对象不存在时返回 404。"
+  },
+  "DropNamespace": {
+    "method": "POST",
+    "template": "/v1/namespace/{id}/drop",
+    "route": "/v1/namespace/lance_catalog$sales/drop",
+    "request_body": {
+      "id": [
+        "lance_catalog",
+        "sales"
+      ],
+      "mode": "Fail",
+      "behavior": "Restrict"
+    },
+    "response_body": {
+      "properties": {
+        "owner": "sales-team"
+      }
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "本例前提是 sales 已为空；非空时应拒绝。若后端返回异步 transaction_id，该字段类型为字符串数组。"
+  },
+  "CreateTable": {
+    "method": "POST",
+    "template": "/v1/table/{id}/create",
+    "route": "/v1/table/lance_catalog$sales$orders/create?mode=Create&properties=%7B%22owner%22%3A%22sales-team%22%7D",
+    "request_body": null,
+    "response_body": {
+      "location": "s3://example-bucket/orders.lance",
+      "version": 1,
+      "properties": {
+        "owner": "sales-team"
+      }
+    },
+    "query": {
+      "mode": "Create",
+      "properties": "{\"owner\":\"sales-team\"}"
+    },
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/vnd.apache.arrow.stream",
+    "response_media": "application/json",
+    "request_file": "fixtures/create-empty.arrow",
+    "response_file": null,
+    "note": "orders 尚不存在；fixtures/create-empty.arrow 是包含完整 Schema、零行数据的真实 Arrow IPC Stream。"
+  },
+  "DeclareTable": {
+    "method": "POST",
+    "template": "/v1/table/{id}/declare",
+    "route": "/v1/table/lance_catalog$sales$orders/declare",
+    "request_body": {
+      "location": "s3://example-bucket/orders.lance",
+      "properties": {
+        "owner": "sales-team"
+      },
+      "vend_credentials": false
+    },
+    "response_body": {
+      "location": "s3://example-bucket/orders.lance",
+      "properties": {
+        "owner": "sales-team"
+      },
+      "managed_versioning": false
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "只建立声明，未创建物理数据；通过 check_declared 查询声明态，不将 location 返回当成数据已存在。"
+  },
+  "RegisterTable": {
+    "method": "POST",
+    "template": "/v1/table/{id}/register",
+    "route": "/v1/table/lance_catalog$sales$orders/register",
+    "request_body": {
+      "location": "s3://example-bucket/orders.lance",
+      "mode": "Create",
+      "properties": {
+        "owner": "sales-team"
+      }
+    },
+    "response_body": {
+      "location": "s3://example-bucket/orders.lance",
+      "properties": {
+        "owner": "sales-team"
+      }
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "location 上已存在可读取的 Lance 数据集，且当前名称未注册；这里不创建数据。"
+  },
+  "ListTables": {
+    "method": "GET",
+    "template": "/v1/namespace/{id}/table/list",
+    "route": "/v1/namespace/lance_catalog$sales/table/list?limit=20&include_declared=false",
+    "request_body": null,
+    "response_body": {
+      "tables": [
+        "lance_catalog$sales$orders",
+        "lance_catalog$sales$customers"
+      ]
+    },
+    "query": {
+      "limit": 20,
+      "include_declared": false
+    },
+    "identifier": [
+      "lance_catalog",
+      "sales"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": null,
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "以 sales 为父级；响应按固定 ListTablesResponse 模型使用字符串标识。本例无下一页。"
+  },
+  "ListAllTables": {
+    "method": "GET",
+    "template": "/v1/table",
+    "route": "/v1/table?limit=20&include_declared=true",
+    "request_body": null,
+    "response_body": {
+      "tables": [
+        "lance_catalog$sales$orders",
+        "lance_catalog$analytics$events"
+      ]
+    },
+    "query": {
+      "limit": 20,
+      "include_declared": true
+    },
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": null,
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "列举连接范围内所有命名空间中的表；平台再按 Catalog 与权限范围过滤。"
+  },
+  "DescribeTable": {
+    "method": "POST",
+    "template": "/v1/table/{id}/describe",
+    "route": "/v1/table/lance_catalog$sales$orders/describe?with_table_uri=true&load_detailed_metadata=true&check_declared=true",
+    "request_body": {
+      "version": 20,
+      "branch": "main",
+      "vend_credentials": false
+    },
+    "response_body": {
+      "table": "orders",
+      "namespace": [
+        "lance_catalog",
+        "sales"
+      ],
+      "version": 20,
+      "location": "s3://example-bucket/orders.lance",
+      "table_uri": "s3://example-bucket/orders.lance",
+      "properties": {
+        "owner": "sales-team"
+      },
+      "managed_versioning": false,
+      "is_only_declared": false
+    },
+    "query": {
+      "with_table_uri": true,
+      "load_detailed_metadata": true,
+      "check_declared": true
+    },
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "示例展示响应的主要定位字段；load_detailed_metadata 请求还可返回真实 Schema、stats 等字段，具体值由物理表决定。"
+  },
+  "TableExists": {
+    "method": "POST",
+    "template": "/v1/table/{id}/exists",
+    "route": "/v1/table/lance_catalog$sales$orders/exists",
+    "request_body": {
+      "version": 20
+    },
+    "response_body": null,
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": null,
+    "request_file": null,
+    "response_file": null,
+    "note": "版本 20 存在时响应无响应体；表或目标版本不存在返回 404，不返回布尔 JSON。"
+  },
+  "RenameTable": {
+    "method": "POST",
+    "template": "/v1/table/{id}/rename",
+    "route": "/v1/table/lance_catalog$sales$orders/rename",
+    "request_body": {
+      "new_table_name": "orders_archive",
+      "new_namespace_id": [
+        "lance_catalog",
+        "sales"
+      ]
+    },
+    "response_body": {},
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "目标名称尚未被占用；本例为同步完成后的空 JSON 对象响应，完成后用新名称 Describe 验证。"
+  },
+  "DeregisterTable": {
+    "method": "POST",
+    "template": "/v1/table/{id}/deregister",
+    "route": "/v1/table/lance_catalog$sales$orders/deregister",
+    "request_body": {
+      "id": [
+        "lance_catalog",
+        "sales",
+        "orders"
+      ]
+    },
+    "response_body": {
+      "id": [
+        "lance_catalog",
+        "sales",
+        "orders"
+      ],
+      "location": "s3://example-bucket/orders.lance"
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "完成后目录中原注册不可见，但 location 中的 Lance 数据仍保留。"
+  },
+  "DropTable": {
+    "method": "POST",
+    "template": "/v1/table/{id}/drop",
+    "route": "/v1/table/lance_catalog$sales$orders/drop",
+    "request_body": null,
+    "response_body": {
+      "id": [
+        "lance_catalog",
+        "sales",
+        "orders"
+      ],
+      "location": "s3://example-bucket/orders.lance"
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": null,
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "此操作具有表及物理数据删除语义；请求无请求体。示例假定同步完成，真实异步结果需继续核实。"
+  },
+  "GetTableStats": {
+    "method": "POST",
+    "template": "/v1/table/{id}/stats",
+    "route": "/v1/table/lance_catalog$sales$orders/stats",
+    "request_body": {
+      "branch": "main"
+    },
+    "response_body": {
+      "total_bytes": 8192,
+      "num_rows": 3,
+      "num_indices": 1,
+      "fragment_stats": {
+        "num_fragments": 1,
+        "num_small_fragments": 1,
+        "lengths": {
+          "min": 3,
+          "max": 3,
+          "mean": 3,
+          "p25": 3,
+          "p50": 3,
+          "p75": 3,
+          "p99": 3
+        }
+      }
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "统计值为参考值；应来自实际表。本例展示 FragmentStats 及其 lengths 的完整必填结构。"
+  },
+  "InsertIntoTable": {
+    "method": "POST",
+    "template": "/v1/table/{id}/insert",
+    "route": "/v1/table/lance_catalog$sales$orders/insert?branch=main&mode=Append",
+    "request_body": null,
+    "response_body": {
+      "num_inserted_rows": 2,
+      "version": 21
+    },
+    "query": {
+      "branch": "main",
+      "mode": "Append"
+    },
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/vnd.apache.arrow.stream",
+    "response_media": "application/json",
+    "request_file": "fixtures/insert.arrow",
+    "response_file": null,
+    "note": "fixtures/insert.arrow 含 2 行数据；Append 保留既有行。实际版本号由提交结果决定。"
+  },
+  "MergeInsertIntoTable": {
+    "method": "POST",
+    "template": "/v1/table/{id}/merge_insert",
+    "route": "/v1/table/lance_catalog$sales$orders/merge_insert?branch=main&on=id&when_matched_update_all=true&when_not_matched_insert_all=true&when_not_matched_by_source_delete=false&timeout=30s",
+    "request_body": null,
+    "response_body": {
+      "num_updated_rows": 1,
+      "num_inserted_rows": 1,
+      "num_deleted_rows": 0,
+      "version": 21
+    },
+    "query": {
+      "branch": "main",
+      "on": [
+        "id"
+      ],
+      "when_matched_update_all": true,
+      "when_not_matched_insert_all": true,
+      "when_not_matched_by_source_delete": false,
+      "timeout": "30s"
+    },
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/vnd.apache.arrow.stream",
+    "response_media": "application/json",
+    "request_file": "fixtures/merge.arrow",
+    "response_file": null,
+    "note": "匹配键为 id：示例假定 id=1 已存在、id=4 不存在；未启用按源缺失删除。组合键可重复传 on 参数。"
+  },
+  "UpdateTable": {
+    "method": "POST",
+    "template": "/v1/table/{id}/update",
+    "route": "/v1/table/lance_catalog$sales$orders/update",
+    "request_body": {
+      "branch": "main",
+      "predicate": "id = 1",
+      "updates": [
+        [
+          "price",
+          "price * 1.1"
+        ]
+      ]
+    },
+    "response_body": {
+      "updated_rows": 1,
+      "version": 21
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "示例假定 id=1 命中一行；updates 是二元组数组，表达式在底层执行。"
+  },
+  "DeleteFromTable": {
+    "method": "POST",
+    "template": "/v1/table/{id}/delete",
+    "route": "/v1/table/lance_catalog$sales$orders/delete",
+    "request_body": {
+      "branch": "main",
+      "predicate": "id = 3"
+    },
+    "response_body": {
+      "version": 21
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "删除匹配数据行，保留表。协议响应没有必需的删除行数字段，因此本例不编造该字段。"
+  },
+  "QueryTable": {
+    "method": "POST",
+    "template": "/v1/table/{id}/query",
+    "route": "/v1/table/lance_catalog$sales$orders/query",
+    "request_body": {
+      "vector": {
+        "single_vector": [
+          0.1,
+          0.2,
+          0.3
+        ]
+      },
+      "k": 2,
+      "vector_column": "embedding",
+      "distance_type": "l2",
+      "columns": {
+        "column_names": [
+          "id",
+          "price"
+        ]
+      },
+      "filter": "price >= 100",
+      "branch": "main",
+      "version": 20,
+      "bypass_vector_index": true
+    },
+    "response_body": null,
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/vnd.apache.arrow.file",
+    "request_file": null,
+    "response_file": "fixtures/query-result.arrow",
+    "note": "embedding 为 3 维 float32。响应是 Arrow IPC File 二进制；fixtures/query-result.arrow 仅为可解码的参考响应，未代表已执行真实查询。"
+  },
+  "CountTableRows": {
+    "method": "POST",
+    "template": "/v1/table/{id}/count_rows",
+    "route": "/v1/table/lance_catalog$sales$orders/count_rows",
+    "request_body": {
+      "branch": "main",
+      "version": 20,
+      "predicate": "price >= 100"
+    },
+    "response_body": 3,
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "响应体是数字 3，不能写成 {\"count\":3}。示例假定目标版本有三行满足条件。"
+  },
+  "ExplainTableQueryPlan": {
+    "method": "POST",
+    "template": "/v1/table/{id}/explain_plan",
+    "route": "/v1/table/lance_catalog$sales$orders/explain_plan",
+    "request_body": {
+      "query": {
+        "vector": null,
+        "k": 10,
+        "columns": {
+          "column_names": [
+            "id",
+            "price"
+          ]
+        },
+        "filter": "price >= 100",
+        "branch": "main"
+      },
+      "verbose": true,
+      "branch": "main"
+    },
+    "response_body": "Projection(id, price) -> Filter(price >= 100) -> Scan(orders)",
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "计划文本只是格式示意，节点命名由执行引擎决定；响应是 JSON 字符串。"
+  },
+  "AnalyzeTableQueryPlan": {
+    "method": "POST",
+    "template": "/v1/table/{id}/analyze_plan",
+    "route": "/v1/table/lance_catalog$sales$orders/analyze_plan",
+    "request_body": {
+      "vector": null,
+      "k": 10,
+      "columns": {
+        "column_names": [
+          "id",
+          "price"
+        ]
+      },
+      "filter": "price >= 100",
+      "branch": "main"
+    },
+    "response_body": "Scan rows=3; Filter output_rows=3; elapsed_ms=2",
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "会实际执行分析；时间和行数为参考值，不能作为性能指标。请求不包装为 query 对象。"
+  },
+  "AlterTableAddColumns": {
+    "method": "POST",
+    "template": "/v1/table/{id}/add_columns",
+    "route": "/v1/table/lance_catalog$sales$orders/add_columns",
+    "request_body": {
+      "branch": "main",
+      "new_columns": [
+        {
+          "name": "discount_price",
+          "expression": "price * 0.9"
+        }
+      ]
+    },
+    "response_body": {
+      "version": 21
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "expression 仅计算已有行；按此固定协议，之后追加的行不自动维护该表达式。持续维护需使用 computed 并配合回填。"
+  },
+  "AlterTableAlterColumns": {
+    "method": "POST",
+    "template": "/v1/table/{id}/alter_columns",
+    "route": "/v1/table/lance_catalog$sales$orders/alter_columns",
+    "request_body": {
+      "branch": "main",
+      "alterations": [
+        {
+          "path": "customer_name",
+          "rename": "buyer_name"
+        }
+      ]
+    },
+    "response_body": {
+      "version": 21
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "示例假定目标名未占用且依赖可安全维护；完成后应从真实 Schema 读取 buyer_name。"
+  },
+  "AlterTableDropColumns": {
+    "method": "POST",
+    "template": "/v1/table/{id}/drop_columns",
+    "route": "/v1/table/lance_catalog$sales$orders/drop_columns",
+    "request_body": {
+      "branch": "main",
+      "columns": [
+        "legacy_note"
+      ]
+    },
+    "response_body": {
+      "version": 21
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "示例假定 legacy_note 存在且没有未处理依赖；删除后保留其他列和表注册。"
+  },
+  "UpdateFieldMetadata": {
+    "method": "POST",
+    "template": "/v1/table/{id}/update_field_metadata",
+    "route": "/v1/table/lance_catalog$sales$orders/update_field_metadata",
+    "request_body": {
+      "branch": "main",
+      "updates": [
+        {
+          "path": "price",
+          "metadata": {
+            "unit": "CNY",
+            "source": null
+          },
+          "replace": false
+        }
+      ]
+    },
+    "response_body": {
+      "version": 21,
+      "fields": {
+        "price": {
+          "unit": "CNY",
+          "comment": "订单金额"
+        }
+      }
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "原 metadata 为 unit=USD、comment=订单金额、source=erp；更新后保留 comment，删除 source。"
+  },
+  "UpdateTableSchemaMetadata": {
+    "method": "POST",
+    "template": "/v1/table/{id}/schema_metadata/update",
+    "route": "/v1/table/lance_catalog$sales$orders/schema_metadata/update?branch=main",
+    "request_body": {
+      "source": "crm",
+      "owner": "sales-team"
+    },
+    "response_body": {
+      "source": "crm",
+      "owner": "sales-team"
+    },
+    "query": {
+      "branch": "main"
+    },
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "请求与响应均为直接属性 Map，整体替换 Arrow Schema metadata。"
+  },
+  "AlterTableBackfillColumns": {
+    "method": "POST",
+    "template": "/v1/table/{id}/backfill_column",
+    "route": "/v1/table/lance_catalog$sales$orders/backfill_column",
+    "request_body": {
+      "branch": "main",
+      "column": "embedding_v2",
+      "where": "embedding_v2 IS NULL",
+      "read_version": 20,
+      "concurrency": 4
+    },
+    "response_body": {
+      "job_id": "job-backfill-01"
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 202,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "embedding_v2 已定义相应计算逻辑且允许为空；HTTP 202 仅表示受理，后续通过作业系统核实。"
+  },
+  "CreateTableIndex": {
+    "method": "POST",
+    "template": "/v1/table/{id}/create_index",
+    "route": "/v1/table/lance_catalog$sales$orders/create_index",
+    "request_body": {
+      "branch": "main",
+      "column": "embedding",
+      "index_type": "IVF_FLAT",
+      "name": "idx_embedding",
+      "distance_type": "l2",
+      "num_partitions": 1
+    },
+    "response_body": {
+      "transaction_id": "tx-index-01"
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "示例假定数据规模满足后端训练要求；创建受理后跟踪事务和索引状态，不能仅据 200 判断已可查询。"
+  },
+  "CreateTableScalarIndex": {
+    "method": "POST",
+    "template": "/v1/table/{id}/create_scalar_index",
+    "route": "/v1/table/lance_catalog$sales$orders/create_scalar_index",
+    "request_body": {
+      "branch": "main",
+      "column": "price",
+      "index_type": "BTREE",
+      "name": "idx_price"
+    },
+    "response_body": {},
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "本例假定同步完成；索引实际名称、UUID 与可用状态通过 ListTableIndices 核实。"
+  },
+  "ListTableIndices": {
+    "method": "POST",
+    "template": "/v1/table/{id}/index/list",
+    "route": "/v1/table/lance_catalog$sales$orders/index/list",
+    "request_body": {
+      "branch": "main",
+      "version": 20,
+      "limit": 20
+    },
+    "response_body": {
+      "indexes": [
+        {
+          "index_name": "idx_embedding",
+          "index_uuid": "11111111-2222-4333-8444-555555555555",
+          "columns": [
+            "embedding"
+          ],
+          "status": "ready",
+          "index_type": "IVF_FLAT",
+          "num_indexed_rows": 3,
+          "num_unindexed_rows": 0
+        }
+      ]
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "status 在协议中是字符串，ready 是后端状态示意，不是规范规定的统一枚举。"
+  },
+  "DescribeTableIndexStats": {
+    "method": "POST",
+    "template": "/v1/table/{id}/index/{index_name}/stats",
+    "route": "/v1/table/lance_catalog$sales$orders/index/idx_embedding/stats",
+    "request_body": {
+      "branch": "main",
+      "version": 20
+    },
+    "response_body": {
+      "index_type": "IVF_FLAT",
+      "distance_type": "l2",
+      "num_indexed_rows": 3,
+      "num_unindexed_rows": 0,
+      "num_indices": 1
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": "idx_embedding",
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "index_name 通过路径指定，统计归属于所选版本；未知的可选值不补零。"
+  },
+  "DropTableIndex": {
+    "method": "POST",
+    "template": "/v1/table/{id}/index/{index_name}/drop",
+    "route": "/v1/table/lance_catalog$sales$orders/index/idx_embedding/drop?branch=main",
+    "request_body": null,
+    "response_body": {},
+    "query": {
+      "branch": "main"
+    },
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": "idx_embedding",
+    "status": 200,
+    "request_media": null,
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "请求无请求体；同步完成后列举索引核实，仅删除 idx_embedding，不删除表数据。"
+  },
+  "ListTableVersions": {
+    "method": "POST",
+    "template": "/v1/table/{id}/version/list",
+    "route": "/v1/table/lance_catalog$sales$orders/version/list?branch=main&limit=20&descending=true",
+    "request_body": null,
+    "response_body": {
+      "versions": [
+        {
+          "version": 20,
+          "manifest_path": "s3://example-bucket/orders.lance/_versions/20.manifest",
+          "manifest_size": 1024
+        },
+        {
+          "version": 19,
+          "manifest_path": "s3://example-bucket/orders.lance/_versions/19.manifest",
+          "manifest_size": 1024
+        }
+      ]
+    },
+    "query": {
+      "branch": "main",
+      "limit": 20,
+      "descending": true
+    },
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": null,
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "本例使用 V1 Manifest 文件名展示；没有 page_token 表示没有下一页。"
+  },
+  "DescribeTableVersion": {
+    "method": "POST",
+    "template": "/v1/table/{id}/version/describe",
+    "route": "/v1/table/lance_catalog$sales$orders/version/describe",
+    "request_body": {
+      "branch": "main",
+      "version": 20
+    },
+    "response_body": {
+      "version": {
+        "version": 20,
+        "manifest_path": "s3://example-bucket/orders.lance/_versions/20.manifest",
+        "manifest_size": 1024
+      }
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "响应 version 字段是 TableVersion 对象，其中的 version 才是数值版本号。"
+  },
+  "CreateTableVersion": {
+    "method": "POST",
+    "template": "/v1/table/{id}/version/create",
+    "route": "/v1/table/lance_catalog$sales$orders/version/create",
+    "request_body": {
+      "branch": "main",
+      "version": 21,
+      "manifest_path": "s3://example-bucket/orders.lance/_versions/21.manifest",
+      "manifest_size": 1024,
+      "naming_scheme": "V1",
+      "metadata": {
+        "source": "writer-01"
+      }
+    },
+    "response_body": {
+      "version": {
+        "version": 21,
+        "manifest_path": "s3://example-bucket/orders.lance/_versions/21.manifest",
+        "manifest_size": 1024,
+        "metadata": {
+          "source": "writer-01"
+        }
+      }
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "托管版本模式下，真实 Manifest 已写好且版本 21 尚未登记；重复冲突由权威提交机制裁决。"
+  },
+  "BatchCreateTableVersions": {
+    "method": "POST",
+    "template": "/v1/table/version/batch-create",
+    "route": "/v1/table/version/batch-create",
+    "request_body": {
+      "entries": [
+        {
+          "id": [
+            "lance_catalog",
+            "sales",
+            "orders"
+          ],
+          "branch": "main",
+          "version": 21,
+          "manifest_path": "s3://example-bucket/orders.lance/_versions/21.manifest",
+          "manifest_size": 1024,
+          "naming_scheme": "V1"
+        },
+        {
+          "id": [
+            "lance_catalog",
+            "sales",
+            "customers"
+          ],
+          "branch": "main",
+          "version": 9,
+          "manifest_path": "s3://example-bucket/customers.lance/_versions/9.manifest",
+          "manifest_size": 1024,
+          "naming_scheme": "V1"
+        }
+      ]
+    },
+    "response_body": {
+      "versions": [
+        {
+          "version": 21,
+          "manifest_path": "s3://example-bucket/orders.lance/_versions/21.manifest",
+          "manifest_size": 1024
+        },
+        {
+          "version": 9,
+          "manifest_path": "s3://example-bucket/customers.lance/_versions/9.manifest",
+          "manifest_size": 1024
+        }
+      ]
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "两份真实 Manifest 均已准备；两条版本记录全成功或全不生效，响应顺序与 entries 一致。"
+  },
+  "BatchDeleteTableVersions": {
+    "method": "POST",
+    "template": "/v1/table/{id}/version/delete",
+    "route": "/v1/table/lance_catalog$sales$orders/version/delete",
+    "request_body": {
+      "branch": "main",
+      "ranges": [
+        {
+          "start_version": 1,
+          "end_version": 4
+        }
+      ]
+    },
+    "response_body": {
+      "deleted_count": 3
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "只删除版本 1、2、3 的记录；本例假定三者存在且没有保留引用。不会因此直接证明物理文件已回收。"
+  },
+  "RestoreTable": {
+    "method": "POST",
+    "template": "/v1/table/{id}/restore",
+    "route": "/v1/table/lance_catalog$sales$orders/restore",
+    "request_body": {
+      "branch": "main",
+      "version": 18
+    },
+    "response_body": {},
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "版本 18 仍可读取；完成后重新 Describe 确认当前版本及 Schema，不把响应为空理解为没有执行。"
+  },
+  "ListTableTags": {
+    "method": "POST",
+    "template": "/v1/table/{id}/tags/list",
+    "route": "/v1/table/lance_catalog$sales$orders/tags/list?limit=20",
+    "request_body": null,
+    "response_body": {
+      "tags": {
+        "release_1": {
+          "version": 20,
+          "manifestSize": 1024
+        }
+      }
+    },
+    "query": {
+      "limit": 20
+    },
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": null,
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "main 分支引用可省略 branch；注意 manifestSize 是协议原始字段名。"
+  },
+  "GetTableTagVersion": {
+    "method": "POST",
+    "template": "/v1/table/{id}/tags/version",
+    "route": "/v1/table/lance_catalog$sales$orders/tags/version",
+    "request_body": {
+      "tag": "release_1"
+    },
+    "response_body": {
+      "version": 20
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "release_1 指向 main 的版本 20；响应省略 branch 时按协议解释为 main。"
+  },
+  "CreateTableTag": {
+    "method": "POST",
+    "template": "/v1/table/{id}/tags/create",
+    "route": "/v1/table/lance_catalog$sales$orders/tags/create",
+    "request_body": {
+      "tag": "release_1",
+      "version": 20,
+      "branch": "main"
+    },
+    "response_body": {},
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "标签不存在且目标版本存在；同步完成后可通过 GetTableTagVersion 验证。"
+  },
+  "UpdateTableTag": {
+    "method": "POST",
+    "template": "/v1/table/{id}/tags/update",
+    "route": "/v1/table/lance_catalog$sales$orders/tags/update",
+    "request_body": {
+      "tag": "release_1",
+      "version": 21,
+      "branch": "main"
+    },
+    "response_body": {},
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "标签已存在且版本 21 有效；更新引用，不复制物理数据。"
+  },
+  "DeleteTableTag": {
+    "method": "POST",
+    "template": "/v1/table/{id}/tags/delete",
+    "route": "/v1/table/lance_catalog$sales$orders/tags/delete",
+    "request_body": {
+      "tag": "release_1"
+    },
+    "response_body": {},
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "只删除标签引用，版本 20 的数据不随之删除。"
+  },
+  "ListTableBranches": {
+    "method": "POST",
+    "template": "/v1/table/{id}/branches/list",
+    "route": "/v1/table/lance_catalog$sales$orders/branches/list?limit=20",
+    "request_body": null,
+    "response_body": {
+      "branches": {
+        "experiment": {
+          "parentVersion": 20,
+          "createAt": 1793145600,
+          "manifestSize": 1024,
+          "metadata": {}
+        }
+      }
+    },
+    "query": {
+      "limit": 20
+    },
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": null,
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "createAt 使用秒；parentVersion 是创建来源版本，不是该分支当前 head。"
+  },
+  "CreateTableBranch": {
+    "method": "POST",
+    "template": "/v1/table/{id}/branches/create",
+    "route": "/v1/table/lance_catalog$sales$orders/branches/create",
+    "request_body": {
+      "name": "experiment",
+      "from_branch": "main",
+      "from_version": 20
+    },
+    "response_body": {},
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "从 main 的版本 20 创建 experiment；后续写入须显式指定 branch=experiment。"
+  },
+  "DeleteTableBranch": {
+    "method": "POST",
+    "template": "/v1/table/{id}/branches/delete",
+    "route": "/v1/table/lance_catalog$sales$orders/branches/delete",
+    "request_body": {
+      "name": "experiment"
+    },
+    "response_body": {},
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "示例假定无未处理引用或在途操作；不得删除默认分支。"
+  },
+  "CreateMaterializedView": {
+    "method": "POST",
+    "template": "/v1/materialized_view/{id}/create",
+    "route": "/v1/materialized_view/lance_catalog$sales$mv_orders/create",
+    "request_body": {
+      "kind": "query",
+      "source_query": "{\"format\":\"example-query-v1\",\"table\":[\"lance_catalog\",\"sales\",\"orders\"],\"columns\":[\"id\",\"price\"]}",
+      "output_schema": "/////8AAAAAQAAAAAAAKAAwABgAFAAgACgAAAAABBAAMAAAACAAIAAAABAAIAAAABAAAAAIAAABYAAAAFAAAABAAFAAIAAYABwAMAAAAEAAQAAAAAAABAxAAAAAcAAAABAAAAAAAAAAFAAAAcHJpY2UABgAIAAYABgAAAAAAAgAQABQACAAAAAcADAAAABAAEAAAAAAAAAIQAAAAHAAAAAQAAAAAAAAAAgAAAGlkAAAIAAwACAAHAAgAAAAAAAABQAAAAAAAAAA=",
+      "udtf_spec": null,
+      "with_no_data": true,
+      "auto_refresh": false
+    },
+    "response_body": {
+      "version": 1
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "mv_orders"
+    ],
+    "index_name": null,
+    "status": 201,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "output_schema 是真实 Arrow Schema 的 Base64。source_query 为本例自定义客户端序列化格式，示例假定现有执行系统可识别；实际接入使用其既有格式，不新增查询执行器。Lance 不统一规定其查询语言。"
+  },
+  "RefreshMaterializedView": {
+    "method": "POST",
+    "template": "/v1/materialized_view/{id}/refresh",
+    "route": "/v1/materialized_view/lance_catalog$sales$mv_orders/refresh",
+    "request_body": {
+      "src_version": 20,
+      "concurrency": 4,
+      "max_rows_per_fragment": 100000
+    },
+    "response_body": {
+      "job_id": "job-refresh-01"
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "mv_orders"
+    ],
+    "index_name": null,
+    "status": 202,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "mv_orders 已存在；只受理刷新，成功后核实输出版本。query 类型不传仅适用于 chunker 的 output_limit。"
+  },
+  "BatchCommitTables": {
+    "method": "POST",
+    "template": "/v1/table/batch-commit",
+    "route": "/v1/table/batch-commit",
+    "request_body": {
+      "operations": [
+        {
+          "declare_table": {
+            "id": [
+              "lance_catalog",
+              "sales",
+              "orders_next"
+            ],
+            "location": "s3://example-bucket/orders-next.lance"
+          }
+        },
+        {
+          "create_table_version": {
+            "id": [
+              "lance_catalog",
+              "sales",
+              "orders"
+            ],
+            "branch": "main",
+            "version": 21,
+            "manifest_path": "s3://example-bucket/orders.lance/_versions/21.manifest",
+            "manifest_size": 1024,
+            "naming_scheme": "V1"
+          }
+        }
+      ]
+    },
+    "response_body": {
+      "results": [
+        {
+          "declare_table": {
+            "location": "s3://example-bucket/orders-next.lance"
+          }
+        },
+        {
+          "create_table_version": {
+            "version": {
+              "version": 21,
+              "manifest_path": "s3://example-bucket/orders.lance/_versions/21.manifest",
+              "manifest_size": 1024
+            }
+          }
+        }
+      ]
+    },
+    "query": {},
+    "identifier": [
+      "lance_catalog",
+      "sales",
+      "orders"
+    ],
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "托管版本前提满足；声明 orders_next 与登记 orders 的版本 21 在权威元数据层原子执行，每项只包含一个动作。"
+  },
+  "DescribeTransaction": {
+    "method": "POST",
+    "template": "/v1/transaction/{id}/describe",
+    "route": "/v1/transaction/tx-index-01/describe",
+    "request_body": {
+      "id": [
+        "tx-index-01"
+      ]
+    },
+    "response_body": {
+      "status": "Running",
+      "properties": {
+        "target": "idx_embedding"
+      }
+    },
+    "query": {},
+    "identifier": "tx-index-01",
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "id 是事务标识，不能使用表名称路径或回填 job_id 替代。"
+  },
+  "AlterTransaction": {
+    "method": "POST",
+    "template": "/v1/transaction/{id}/alter",
+    "route": "/v1/transaction/tx-index-01/alter",
+    "request_body": {
+      "actions": [
+        {
+          "setPropertyAction": {
+            "key": "progress",
+            "value": "50",
+            "mode": "Overwrite"
+          }
+        },
+        {
+          "unsetPropertyAction": {
+            "key": "last_error",
+            "mode": "Skip"
+          }
+        }
+      ]
+    },
+    "response_body": {
+      "status": "Running",
+      "properties": {
+        "target": "idx_embedding",
+        "progress": "50"
+      }
+    },
+    "query": {},
+    "identifier": "tx-index-01",
+    "index_name": null,
+    "status": 200,
+    "request_media": "application/json",
+    "response_media": "application/json",
+    "request_file": null,
+    "response_file": null,
+    "note": "授权协调器原子修改两项属性，事务仍在执行；示例不通过手工修改状态伪造业务成功。"
+  }
+}
